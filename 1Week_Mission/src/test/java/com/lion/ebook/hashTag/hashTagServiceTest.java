@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -39,10 +41,10 @@ public class hashTagServiceTest {
         Member member = memberService.findById(1L);
         Post post = postService.findById(1L);
 
-        HashTag hashTag1 = hashTagService.create(member, post, "인사");
+        List<HashTag> hashTag1 = hashTagService.create(member, post, "#인사");
 
-        assertThat(hashTag1).isNotNull();
-        assertThat(hashTag1.getKeyword().getHashTag()).isEqualTo("인사");
+        assertThat(hashTag1.get(0)).isNotNull();
+        assertThat(hashTag1.get(0).getKeyword().getHashTag()).isEqualTo("#인사");
     }
 
     @Test
@@ -52,8 +54,8 @@ public class hashTagServiceTest {
         Post post1 = postService.findById(1L);
         Post post2 = postService.findById(2L);
 
-        HashTag hashTag1 = hashTagService.create(member, post1, "인사");
-        HashTag hashTag2 = hashTagService.create(member, post2, "인사");
+        HashTag hashTag1 = hashTagService.create(member, post1, "인사").get(0);
+        HashTag hashTag2 = hashTagService.create(member, post2, "인사").get(0);
 
         assertThat(hashTag1.getKeyword()).isEqualTo(hashTag2.getKeyword());
         assertThat(hashTag1).isNotEqualTo(hashTag2);

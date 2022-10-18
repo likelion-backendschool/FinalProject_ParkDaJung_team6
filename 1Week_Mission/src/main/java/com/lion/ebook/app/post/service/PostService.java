@@ -1,5 +1,6 @@
 package com.lion.ebook.app.post.service;
 
+import com.lion.ebook.app.hashTag.service.HashTagService;
 import com.lion.ebook.app.member.entity.Member;
 import com.lion.ebook.app.post.entity.Post;
 import com.lion.ebook.app.post.repository.PostRepository;
@@ -12,6 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+
+    private final HashTagService hashTagService;
 
     public List<Post> findAll() {
         return postRepository.findAllByOrderByCreatedAtDesc();
@@ -26,6 +29,14 @@ public class PostService {
                 .build();
 
         return postRepository.save(post);
+    }
+
+    public Post create(Member author, String subject, String content, String contentHtml, String hashTagStr) {
+        Post post = create(author, subject, content, contentHtml);
+
+        hashTagService.create(author, post, hashTagStr);
+
+        return post;
     }
 
     public Post findById(long postId) {

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface HashTagRepository extends JpaRepository<HashTag, Long> {
 
-    @Query("select t.keyword from HashTag t")
+    @Query("select t.keyword from HashTag t where t.post.id = :id")
     List<Keyword> findByPostId(Long id);
 
     boolean existsByPostAndKeyword(Post post, Keyword keyword);
