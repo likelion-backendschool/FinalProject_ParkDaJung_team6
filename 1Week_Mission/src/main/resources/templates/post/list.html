@@ -10,6 +10,9 @@
 
     <div class="container mx-auto">
         <h1>글 리스트</h1>
+        <div class="flex justify-end" sec:authorize="isAuthenticated()">
+            <a th:href="@{/post/write}" class="btn">게시물 작성</a>
+        </div>
 
         <div class="overflow-x-auto">
             <table class="table w-full">
@@ -29,8 +32,8 @@
                     <td th:href="@{|/post/${post.id}|}" th:text="${post.id}"></td>
                     <td>
                         <a th:href="@{|/post/${post.id}|}" th:text="${post.subject}"></a>
-                    <td>
-                        <div class="flex-auto" th:each="keyword : ${post.keywordList}">
+                    <td class="flex flex-row">
+                        <div th:each="keyword : ${post.keywordList}">
                             <span class="badge badge-ghost badge-sm" th:text="|# ${keyword.hashTag}|"></span>
                         </div>
                     </td>
