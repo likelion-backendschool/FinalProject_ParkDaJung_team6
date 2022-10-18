@@ -1,6 +1,7 @@
 package com.lion.ebook.app.post.controller;
 
 
+import com.lion.ebook.app.hashTag.entity.HashTag;
 import com.lion.ebook.app.hashTag.service.HashTagService;
 import com.lion.ebook.app.keyword.dto.KeywordDto;
 import com.lion.ebook.app.keyword.entity.Keyword;
@@ -65,5 +66,21 @@ public class PostController {
         return "redirect:/post/list";
     }
 
+    @GetMapping("/{id}")
+    public String getDetail(@PathVariable Long id, Model model) {
+        Post post = postService.findById(id);
+
+        if(post == null) {
+            return null;
+        }
+        PostDetailDto postDetailDto = PostMapper.instance.toDetailDto(post);
+
+        List<String> keywordList = hashTagService.findHashTagByPostId(id);
+        postDetailDto.setHashTagList(keywordList);
+
+        model.addAttribute("postDetail", postDetailDto);
+
+        return "post/detail";
+    }
 
 }

@@ -19,4 +19,7 @@ public interface PostMapper {
     @Mapping(source = "modifiedAt", target = "modifiedAt", dateFormat = "yyyy.MM.dd HH:mm")
     List<PostListDto> toListDto(List<Post> post);
 
+    @Mapping(target = "author", expression = "java(post.getAuthor().getNickname())")
+    PostDetailDto toDetailDto(Post post);
+
 }

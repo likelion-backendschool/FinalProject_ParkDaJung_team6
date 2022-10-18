@@ -57,4 +57,8 @@ public class HashTagService {
     public List<Keyword> findByPostId(Long id) {
         return hashTagRepository.findByPostId(id);
     }
+
+    public List<String> findHashTagByPostId(Long id) {
+        return hashTagRepository.findHashTagByPostId(id);
+    }
 }
