@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
+
+<head>
+    <title>글 상세페이지</title>
+</head>
+
+<body>
+<section layout:fragment="main">
+    <div class="container">
+        <h1>글 상세페이지</h1>
+
+        <div>
+            아이디 : [[${postDetail.id}]]
+        </div>
+
+        <div>
+            작성자 : [[${postDetail.author}]]
+        </div>
+
+        <div>
+            제목 : [[${postDetail.subject}]]
+        </div>
+
+        <div>
+            내용 : [[${postDetail.content}]]
+        </div>
+        <div>
+            <div th:each="keyword : ${postDetail.hashTagList}">
+                <span class="badge badge-ghost badge-sm" th:text="|# ${keyword}|"></span>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

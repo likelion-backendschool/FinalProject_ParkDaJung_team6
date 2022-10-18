@@ -16,4 +16,7 @@ public interface HashTagRepository extends JpaRepository<HashTag, Long> {
     List<Keyword> findByPostId(Long id);
 
     boolean existsByPostAndKeyword(Post post, Keyword keyword);
+
+    @Query("select t.keyword.hashTag from HashTag t where t.post.id = :id")
+    List<String> findHashTagByPostId(Long id);
 }
