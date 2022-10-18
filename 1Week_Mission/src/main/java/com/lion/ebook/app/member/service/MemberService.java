@@ -1,5 +1,6 @@
 package com.lion.ebook.app.member.service;
 
+import com.lion.ebook.app.keyword.repository.KeywordRepository;
 import com.lion.ebook.app.member.entity.Member;
 import com.lion.ebook.app.member.repositoy.MemberRepository;
 import com.lion.ebook.common.dto.ResultData;
@@ -14,7 +15,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-    public ResultData join(String username, String password, String email, String nickname) {
+    public ResultData<Member> join(String username, String password, String email, String nickname) {
         if(memberRepository.existsByUsername(username)) {
             return new ResultData("400", "동일한 아이디의 유저가 존재합니다.", "");
         }
@@ -29,6 +30,10 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        return new ResultData("201", "회원가입이 완료되었습니다.");
+        return new ResultData("201", "회원가입이 완료되었습니다.", member);
+    }
+
+    public Member findById(long memberId) {
+        return memberRepository.findById(memberId).orElse(null);
     }
 }

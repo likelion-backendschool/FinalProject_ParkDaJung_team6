@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
+
+<head>
+    <title>글 리스트</title>
+</head>
+
+<body>
+<section layout:fragment="main">
+
+    <div>
+        <h1>글 리스트</h1>
+
+        <div class="overflow-x-auto">
+            <table class="table w-full">
+                <!-- head -->
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>해시태그</th>
+                    <th>작성자</th>
+                    <th>작성날짜</th>
+                    <th>수정날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${postList}">
+                    <td th:href="@{|/post/${post.id}|}" th:text="${post.id}"></td>
+                    <td>
+                        <a th:href="@{|/post/${post.id}|}" th:text="${post.subject}"></a>
+                    <td>
+                        <div class="flex-auto" th:each="keyword : ${post.keywordList}">
+                            <span class="badge badge-ghost badge-sm" th:text="|# ${keyword.hashTag}|"></span>
+                        </div>
+                    </td>
+                    <td th:text="${post.author.username}"></td>
+                    <td th:text="${post.createdAt}"></td>
+                    <td th:text="${post.modifiedAt}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</body>
+</html>
