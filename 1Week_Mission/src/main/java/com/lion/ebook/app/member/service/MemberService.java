@@ -36,4 +36,8 @@ public class MemberService {
     public Member findById(long memberId) {
         return memberRepository.findById(memberId).orElse(null);
     }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
 }

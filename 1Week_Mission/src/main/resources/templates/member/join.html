@@ -7,9 +7,9 @@
 
 <body>
 <main layout:fragment="main">
-  <section class="section section-join flex-grow flex flex-col items-center justify-center">
+  <section class="container my-3">
 
-    <div class="max-w-md w-full px-2 pt-4">
+    <div>
       <h1 class="font-bold text-lg">회원가입</h1>
 
       <script>
@@ -82,29 +82,29 @@
             <span class="label-text">비밀번호</span>
           </label>
           <input type="password" name="password"
-                 placeholder="비밀번호" class="input input-bordered" maxlength="50">
+                 placeholder="비밀번호" class="form-label" maxlength="50">
 
           <input type="password" name="passwordConfirm"
-                 placeholder="비밀번호확인" class="input input-bordered" maxlength="50">
+                 placeholder="비밀번호확인" class="form-label" maxlength="50">
         </div>
 
         <div class="form-control">
           <label class="label">
             <span class="label-text">이메일</span>
           </label>
-          <input type="email" name="email" placeholder="이메일" class="input input-bordered" maxlength="50">
+          <input type="email" name="email" placeholder="이메일" class="form-control" maxlength="50">
         </div>
 
         <div class="form-control">
           <label class="label">
             <span class="label-text">닉네임</span>
           </label>
-          <input type="text" name="nickname" placeholder="닉네임" class="input input-bordered" maxlength="50">
+          <input type="text" name="nickname" placeholder="닉네임" class="form-control" maxlength="50">
         </div>
 
-        <div class="grid grid-cols-2 mt-2 gap-2">
-          <input class="btn btn-primary" type="submit" value="회원가입">
-          <a href="/member/login" class="btn btn-secondary btn-outline">로그인</a>
+        <div class="d-flex flex-row mb-3">
+          <button class="btn btn-primary" type="submit">회원가입</button>
+          <button class="btn btn-secondary" type="text" onclick="location.href='/member/login'">로그인</button>
         </div>
       </form>
     </div>
