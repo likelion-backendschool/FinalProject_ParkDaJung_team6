@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 public class PostDetailDto {
     private Long id;
+    private Long authorId;
     private String author;
     private String subject;
     private String content;

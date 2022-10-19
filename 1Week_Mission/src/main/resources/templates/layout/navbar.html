@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://thymeleaf.org"
+>
+<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">멋북스</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex" id="navbarSupportedContent">
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/post/list}">게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/member/join}">회원가입</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+                    <a class="nav-link" href="javascript: document.logoutForm.submit();" sec:authorize="isAuthenticated()">
+                        로그아웃
+                    </a>
+                    <form name="logoutForm" th:action="@{/member/logout}" method="post" hidden></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</html>

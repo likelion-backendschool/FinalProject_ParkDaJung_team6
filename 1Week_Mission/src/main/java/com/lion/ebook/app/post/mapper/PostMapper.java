@@ -20,6 +20,7 @@ public interface PostMapper {
     List<PostListDto> toListDto(List<Post> post);
 
     @Mapping(target = "author", expression = "java(post.getAuthor().getNickname())")
+    @Mapping(target = "authorId", expression = "java(post.getAuthor().getId())")
     PostDetailDto toDetailDto(Post post);
 
 }
