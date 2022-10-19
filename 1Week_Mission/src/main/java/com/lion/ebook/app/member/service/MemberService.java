@@ -40,4 +40,16 @@ public class MemberService {
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
+
+    public ResultData<Boolean> modify(Member member, String email, String nickname) {
+        if(memberRepository.existsByEmail(email)) {
+            return new ResultData<>("400", "해당 이메일이 이미 존재합니다.", false);
+        }
+
+        member.setEmail(email);
+        member.setNickname(nickname);
+        memberRepository.save(member);
+
+        return new ResultData("200", "변경 성공", true);
+    }
 }
