@@ -25,7 +25,7 @@
                 </div>
                 <div>
                     <div th:each="keyword : ${postDetail.hashTagList}">
-                        <span class="badge bg-light text-dark" th:text="|# ${keyword}|"></span>
+                        <span class="badge rounded-pill text-bg-primary" th:text="|# ${keyword}|"></span>
                     </div>
                 </div>
 
@@ -34,11 +34,11 @@
                 <div class="my-3">
                     <a th:href="@{|/post/modify/${postDetail.id}|}" class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
-                       th:if="${postDetail.authorId != null and #authentication.getPrincipal().getUsername() == postDetail.authorId}"
+                       th:if="${postDetail.authorId != null and #authentication.getPrincipal().getId() == postDetail.authorId}"
                        th:text="수정"></a>
                     <a onClick="if(!confirm('정말로 삭제하시겠습니까?')) return false;" th:href="@{|/post/delete/${postDetail.id}|}" class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
-                       th:if="${postDetail.authorId != null and #authentication.getPrincipal().getUsername() == postDetail.authorId}"
+                       th:if="${postDetail.authorId != null and #authentication.getPrincipal().getId() == postDetail.authorId}"
                        th:text="삭제"></a>
                 </div>
             </div>

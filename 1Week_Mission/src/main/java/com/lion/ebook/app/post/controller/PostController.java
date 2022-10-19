@@ -14,6 +14,7 @@ import com.lion.ebook.app.post.mapper.PostMapper;
 import com.lion.ebook.app.post.service.PostService;
 import com.lion.ebook.app.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,23 @@ public class PostController {
         model.addAttribute("postDetail", postDetailDto);
 
         return "post/detail";
+    }
+
+    @PostAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String getModify(@AuthenticationPrincipal MemberContext memberContext, Model model, @PathVariable Long id) {
+        Post post = postService.findById(id);
+
+        if(post == null) {
+            return null;
+        }
+        PostDetailDto postDetailDto = PostMapper.instance.toDetailDto(post);
+
+        List<String> keywordList = hashTagService.findHashTagByPostId(id);
+        postDetailDto.setHashTagList(keywordList);
+
+        model.addAttribute("postDetail", postDetailDto);
+        return "post/modify";
     }
 
 
