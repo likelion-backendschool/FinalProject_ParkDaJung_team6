@@ -3,6 +3,7 @@ package com.lion.ebook.app.security.dto;
 
 import com.lion.ebook.app.member.entity.Member;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -10,16 +11,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
 public class MemberContext extends User {
     private final Long id;
     private final LocalDateTime createdAt;
-    private final LocalDateTime modifiedAt;
+
+    private LocalDateTime modifiedAt;
     private final String username;
 
-    private final String nickname;
-    private final String email;
+    private String nickname;
 
-    private final int authLevel;
+    private String email;
+
+    private int authLevel;
 
     public MemberContext(Member member, List<GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), authorities);
@@ -48,4 +52,5 @@ public class MemberContext extends User {
     public String getName() {
         return getUsername();
     }
+
 }

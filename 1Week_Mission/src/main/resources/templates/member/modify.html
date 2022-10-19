@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
+
+<head>
+    <title>회원정보수정</title>
+</head>
+
+<body>
+<section layout:fragment="main">
+    <div class="container">
+        <h1>회원정보수정</h1>
+
+        <script>
+            function ModifyForm__submit(form) {
+                form.email.value = form.email.value.trim();
+
+                if (form.email.value.length == 0) {
+                    alert("이메일을 입력해주세요.");
+                    form.email.focus();
+                    return;
+                }
+
+
+                form.nickname.value = form.nickname.value.trim();
+
+                if (form.nickname.value.length == 0) {
+                    alert("닉네임을 입력해주세요.");
+                    form.nickname.focus();
+                    return;
+                }
+                form.submit();
+            }
+
+        </script>
+
+
+        <form th:action method="POST" enctype="multipart/form-data" onsubmit="ModifyForm__submit(this); return false;">
+            <div>
+                <span>아이디</span>
+                <span th:text="${#authentication.principal.username}" disabled></span>
+            </div>
+            <div>
+                <span>이메일</span>
+                <input name="email" th:value="${#authentication.principal.email}" class="form-control"></input>
+<!--                <input type="text" th:field="${#authentication.principal.email}" class="form-control">-->
+            </div>
+            <div>
+                <span>닉네임</span>
+
+                <input name="nickname" th:value="${#authentication.principal.nickname}"></input>
+<!--                <input type="text" th:field="${#authentication.principal.nickname}" class="form-control">-->
+            </div>
+            <div>
+                <span>수정</span>
+                <input type="submit" value="수정">
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
