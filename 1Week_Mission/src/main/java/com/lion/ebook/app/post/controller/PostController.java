@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,4 +105,19 @@ public class PostController {
     }
 
 
+    @PostAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String modify(Model model, @PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext, @Valid PostForm postForm) {
+        Post post = postService.findById(id);
+
+        postService.modify(memberContext.getMember(), post, postForm.getSubject(), postForm.getContent(), postForm.getHashTagContents());
+
+        String resultMsg="";
+        try {
+            resultMsg = URLEncoder.encode("정상적으로 수정되었습니다.", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/post/%d?msg=%s".formatted(id, resultMsg);
+    }
 }
