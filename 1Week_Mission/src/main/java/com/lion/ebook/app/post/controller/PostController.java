@@ -35,8 +35,8 @@ public class PostController {
     private final HashTagService hashTagService;
 
     @GetMapping("/list")
-    public String showList(Model model) {
-        List<Post> postList = postService.findAll();
+    public String showList(Model model, String hashtag) {
+        List<Post> postList = postService.listByHashTag(hashtag);
         List<PostListDto> postDetail = PostMapper.instance.toListDto(postList);
 
         for(PostListDto postListDto : postDetail) {

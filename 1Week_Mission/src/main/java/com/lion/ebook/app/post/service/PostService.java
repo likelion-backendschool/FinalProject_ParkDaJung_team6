@@ -42,4 +42,8 @@ public class PostService {
     public Post findById(long postId) {
         return postRepository.findById(postId).orElse(null);
     }
+
+    public List<Post> listByHashTag(String hashTag) {
+        return postRepository.listByHashTag(hashTag);
+    }
 }
