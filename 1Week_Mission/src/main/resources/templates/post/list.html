@@ -34,7 +34,7 @@
                         <a th:href="@{|/post/${post.id}|}" th:text="${post.subject}"></a>
                     <td class="d-flex flex-row">
                         <div th:each="keyword : ${post.keywordList}">
-                            <span class="badge rounded-pill text-bg-primary" th:text="|# ${keyword.hashTag}|"></span>
+                            <a class="badge rounded-pill text-bg-primary" th:href="@{/post/list(hashtag=${keyword.hashTag})}" th:text="|# ${keyword.hashTag}|"></a>
                         </div>
                     </td>
                     <td th:text="${post.author.username}"></td>
