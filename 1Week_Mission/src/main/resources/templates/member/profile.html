@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
+
+<head>
+    <title>프로파일</title>
+</head>
+
+<body>
+<section layout:fragment="main">
+    <div class="container">
+        <h1>프로필</h1>
+        <div th:text="|아이디 : ${#authentication.principal.username}|"></div>
+        <div th:text="|권한 : ${#authentication.principal.authLevel == 3? '일반회원':'관리자'}|"></div>
+        <div th:text="|닉네임 : ${#authentication.principal.nickname}|"></div>
+        <div th:text="|이메일 : ${#authentication.principal.email}|"></div>
+    </div>
+
+</section>
+</body>
+</html>
