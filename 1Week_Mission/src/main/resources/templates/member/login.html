@@ -48,7 +48,7 @@
             </script>
 
 
-            <div th:action method="POST" class="flex flex-col gap-3" onsubmit="MemberLogin__submit(this); return false;">
+            <form th:action method="POST" class="flex flex-col gap-3" onsubmit="MemberLogin__submit(this); return false;">
                 <div class="mb-3">
                     <label class="form-label">
                         <span class="label-text">아이디</span>
@@ -72,9 +72,10 @@
 <!--                        아이디/비밀번호 찾기-->
 <!--                    </button>-->
                     <a data-bs-toggle="modal" data-bs-target="#findModal">아이디/비밀번호 찾기</a>
-
                 </div>
-                <!-- Modal -->
+            </form>
+
+            <!-- Modal -->
                 <div class="modal fade" id="findModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -108,8 +109,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+
 
         </div>
     </section>
@@ -134,12 +134,9 @@
             success: function(data) {
                 if(data.code == "200") {
                     const btn1 = document.getElementById("idValue");
-                    successModal(data.data);
+                    // successModal(data.data);
 
-                    // btn1.innerHTML = data.data;
                     btn1.value = data.data;
-                    // $("#idVal").empty();
-                    // $("#idVal").innerHTML(data.data);
                 } else {
                     errorModal(data.msg);
                 }

@@ -24,6 +24,9 @@
                     </a>
                     <form name="logoutForm" th:action="@{/member/logout}" method="post" hidden></form>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/member/profile}">프로필</a>
+                </li>
             </ul>
         </div>
     </div>

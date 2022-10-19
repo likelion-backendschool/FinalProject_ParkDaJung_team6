@@ -7,6 +7,7 @@ import com.lion.ebook.common.dto.ResultData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,12 @@ public class MemberController {
         }
 
         return new ResultData<>("200", "성공", member.getUsername());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/profile")
+    public String getMypage() {
+        return "member/profile";
     }
 
 }
