@@ -25,11 +25,11 @@ public class DevInitData {
         Post post1 = postService.create(member1.getData(), "안녕1", "글1", "<h1>안녕1</h1>");
         Post post2 = postService.create(member2.getData(), "안녕2", "글2", "<h1>안녕2</h1>");
 
-        hashTagService.create(member1.getData(), post1, "친목");
-        hashTagService.create(member1.getData(), post1, "인사");
+        hashTagService.create(member1.getData(), post1, "#친목");
+        hashTagService.create(member1.getData(), post1, "#인사");
 
-        hashTagService.create(member1.getData(), post2, "친목");
-        hashTagService.create(member2.getData(), post2, "친목");
+        hashTagService.create(member1.getData(), post2, "#친목");
+        hashTagService.create(member2.getData(), post2, "#친목");
 
         return null;
     }

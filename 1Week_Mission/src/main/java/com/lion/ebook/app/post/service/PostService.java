@@ -57,4 +57,8 @@ public class PostService {
 
         hashTagService.create(member, post, hashTagContents);
     }
+
+    public void delete(Post post) {
+        postRepository.delete(post);
+    }
 }

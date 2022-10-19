@@ -6,8 +6,13 @@ import com.lion.ebook.app.post.entity.Post;
 import com.lion.ebook.common.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+
+import static org.hibernate.annotations.CascadeType.DELETE;
 
 
 @Entity
@@ -26,10 +31,12 @@ public class HashTag extends BaseEntity {
     private Member member;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "keyword_id")
     private Keyword keyword;
 }
