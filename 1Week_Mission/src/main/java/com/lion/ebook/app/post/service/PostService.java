@@ -46,4 +46,15 @@ public class PostService {
     public List<Post> listByHashTag(String hashTag) {
         return postRepository.listByHashTag(hashTag);
     }
+
+    public void modify(Member member, Post post, String subject, String content, String hashTagContents) {
+        post.setSubject(subject);
+        post.setContent(content);
+        //TODO : contentHtml
+        post.setContentHtml(content);
+
+        postRepository.save(post);
+
+        hashTagService.create(member, post, hashTagContents);
+    }
 }
