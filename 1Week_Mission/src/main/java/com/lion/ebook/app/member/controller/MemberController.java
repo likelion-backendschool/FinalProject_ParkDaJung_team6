@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -36,22 +37,17 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String doJoin(@Valid JoinForm joinForm) {
-        ResultData result = memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
-
-
-        String resultMsg = "";
-        try {
-            resultMsg = URLEncoder.encode(result.getMsg(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+    public String doJoin(@Valid JoinForm joinForm, Model model) {
+        if(memberService.existsByUsername(joinForm.getUsername())) {
+            model.addAttribute("errorMsg", "아이디가 이미 존재합니다.");
+//            redirectAttributes.addFlashAttribute("errorMsg", "아이디가 이미 존재합니다.");
+            return "member/join";
         }
 
-        if(result.getCode().startsWith("2")) {
-            return "redirect:/member/login?msg="+resultMsg;
-        } else {
-            return "redirect:/member/join?errorMsg="+resultMsg;
-        }
+        memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
+
+        model.addAttribute("msg", "회원가입에 성공했습니다.");
+        return "redirect:/member/login";
     }
 
     @GetMapping("/login")
@@ -84,11 +80,14 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
-    public String modify(@AuthenticationPrincipal MemberContext context, String email, String nickname) {
-        System.out.println(email);
-        Member member = memberService.findById(context.getId());
+    public String modify(@AuthenticationPrincipal MemberContext context, String email, String nickname, RedirectAttributes redirectAttributes) {
+        if(memberService.existsByEmail(email)) {
+            redirectAttributes.addFlashAttribute("errorMsg", "아이디가 이미 존재합니다.");
+            return "redirect:/member/profile";
+        }
 
-        ResultData<Boolean> result = memberService.modify(member, email, nickname);
+        Member member = memberService.findById(context.getId());
+        memberService.modify(member, email, nickname);
 
         context.setModifiedAt(member.getModifiedAt());
         context.setEmail(member.getEmail());
