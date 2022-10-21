@@ -15,11 +15,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-    public ResultData<Member> join(String username, String password, String email, String nickname) {
-        if(memberRepository.existsByUsername(username)) {
-            return new ResultData("400", "동일한 아이디의 유저가 존재합니다.", "");
-        }
-
+    public Member join(String username, String password, String email, String nickname) {
         Member member = Member.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
@@ -28,9 +24,7 @@ public class MemberService {
                 .authLevel(3)
                 .build();
 
-        memberRepository.save(member);
-
-        return new ResultData("201", "회원가입이 완료되었습니다.", member);
+        return memberRepository.save(member);
     }
 
     public Member findById(long memberId) {
@@ -41,15 +35,17 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    public ResultData<Boolean> modify(Member member, String email, String nickname) {
-        if(memberRepository.existsByEmail(email)) {
-            return new ResultData<>("400", "해당 이메일이 이미 존재합니다.", false);
-        }
-
+    public void modify(Member member, String email, String nickname) {
         member.setEmail(email);
         member.setNickname(nickname);
         memberRepository.save(member);
+    }
 
-        return new ResultData("200", "변경 성공", true);
+    public boolean existsByUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+    public boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(email);
     }
 }
