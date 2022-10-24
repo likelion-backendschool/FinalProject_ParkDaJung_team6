@@ -1,5 +1,6 @@
 package com.lion.ebook.app.member.controller;
 
+import com.lion.ebook.app.email.service.EmailService;
 import com.lion.ebook.app.member.dto.JoinForm;
 import com.lion.ebook.app.member.entity.Member;
 import com.lion.ebook.app.member.service.MemberService;
@@ -31,6 +32,8 @@ import java.security.Principal;
 public class MemberController {
     private final MemberService memberService;
 
+    private final EmailService emailService;
+
     @GetMapping("/join")
     public String showJoin() {
         return "member/join";
@@ -40,13 +43,13 @@ public class MemberController {
     public String doJoin(@Valid JoinForm joinForm, Model model) {
         if(memberService.existsByUsername(joinForm.getUsername())) {
             model.addAttribute("errorMsg", "아이디가 이미 존재합니다.");
-//            redirectAttributes.addFlashAttribute("errorMsg", "아이디가 이미 존재합니다.");
             return "member/join";
         }
 
-        memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
+        memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname(), true);
 
         model.addAttribute("msg", "회원가입에 성공했습니다.");
+
         return "redirect:/member/login";
     }
 

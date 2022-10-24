@@ -11,6 +11,20 @@ spring:
 #        use_sql_comments: true
     hibernate:
       ddl-auto: create
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ekwjd990913@gmail.com
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 logging:
   level:
     com.lion.ebook.app: debug
+custom:
+  email:
+    sender: no-reply@no-reply.com

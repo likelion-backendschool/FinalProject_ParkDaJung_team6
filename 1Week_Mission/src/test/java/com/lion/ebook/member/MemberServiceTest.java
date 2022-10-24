@@ -22,19 +22,19 @@ public class MemberServiceTest {
     @Test
     @DisplayName("회원 생성")
     void t1() {
-        ResultData<Member> member1 = memberService.join("test1", "1234", "1@1.com", "유저1");
+        Member member1 = memberService.join("test1", "1234", "1@1.com", "유저1", false);
 
-        assertThat(member1.getCode()).isEqualTo("201");
+        assertThat(member1).isNotNull();
     }
 
     @Test
     @DisplayName("동일한 username을 가진 회원은 가입할 수 없음")
     void t2() {
-        ResultData<Member> member1 = memberService.join("test1", "1234", "1@1.com", "유저1");
-        ResultData<Member> member2 = memberService.join("test1", "1234", "2@2.com", "유저2");
+        Member member1 = memberService.join("test1", "1234", "1@1.com", "유저1", false);
+        Member member2 = memberService.join("test1", "1234", "2@2.com", "유저2", false);
 
-        assertThat(member1.getCode()).isEqualTo("201");
-        assertThat(member2.getCode()).isEqualTo("400");
+        assertThat(member1).isNotNull();
+        assertThat(member2).isNotNull();
     }
 
 }
