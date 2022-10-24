@@ -29,7 +29,10 @@
                     </div>
                 </div>
 
-                <div class="card-text" th:utext="${@commonUtil.markdown(postDetail.content)}"></div>
+                <div class="toast-ui-viewer">
+                    <div class="toastui-editor-contents" style="overflow-wrap: break-word;"
+                         th:utext="${postDetail.contentHtml}"></div>
+                </div>
 
                 <div class="my-3">
                     <a th:href="@{|/post/modify/${postDetail.id}|}" class="btn btn-sm btn-outline-secondary"
@@ -45,6 +48,7 @@
         </div>
 
     </div>
+    <th:block th:replace="common/toastEditor :: toastEditor"></th:block>
 </section>
 </body>
 </html>

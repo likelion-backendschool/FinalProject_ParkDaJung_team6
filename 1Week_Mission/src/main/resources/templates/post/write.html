@@ -20,33 +20,42 @@
                     return;
                 }
 
+                const editor = $(form).find(".toast-ui-editor").data("data-toast-editor");
+                const markdown = editor.getMarkdown().trim();
+                const html = editor.getHTML().trim();
 
-                form.content.value = form.content.value.trim();
+                console.log("markdown:"+markdown);
+                console.log("html:"+html);
+                form.content.value = markdown;
+                form.contentHtml.value = html;
 
-                if (form.content.value.length == 0) {
-                    alert("내용을 입력해주세요.");
-                    form.content.focus();
+                if (form.content.value.length == 0 || form.contentHtml.value.length == 0) {
+                    alert("내용을 입력해주세요");
+                    editor.focus();
                     return;
                 }
-
                 form.submit();
             }
 
         </script>
 
 
-        <form th:action method="POST" enctype="multipart/form-data" onsubmit="WriteForm__submit(this); return false;">
+        <form th:action method="POST" onsubmit="WriteForm__submit(this); return false;">
+            <input type="hidden" name="content">
+            <input type="hidden" name="contentHtml">
             <div>
                 <span>제목</span>
                 <input type="text" name="subject">
             </div>
             <div>
-                <span>내용</span>
-                <textarea name="content"></textarea>
-            </div>
-            <div>
                 <span>키워드</span>
                 <input type="text" name="hashTagContents" placeholder="#키워드1 #키워드2" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">내용</span>
+                </label>
+                <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh)"></div>
             </div>
             <div>
                 <span>글쓰기</span>
@@ -54,6 +63,9 @@
             </div>
         </form>
     </div>
+
+    <th:block th:replace="common/toastEditor :: toastEditor"></th:block>
 </section>
+
 </body>
 </html>

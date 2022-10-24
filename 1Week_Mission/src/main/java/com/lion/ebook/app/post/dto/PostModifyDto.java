@@ -7,11 +7,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PostDetailDto {
+public class PostModifyDto {
     private Long id;
     private Long authorId;
     private String author;
     private String subject;
-    private String contentHtml;
+    private String content;
     private List<String> hashTagList;
 }

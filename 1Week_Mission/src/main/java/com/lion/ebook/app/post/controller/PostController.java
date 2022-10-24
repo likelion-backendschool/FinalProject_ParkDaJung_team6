@@ -9,11 +9,13 @@ import com.lion.ebook.app.keyword.mapper.KeywordMapper;
 import com.lion.ebook.app.post.dto.PostDetailDto;
 import com.lion.ebook.app.post.dto.PostForm;
 import com.lion.ebook.app.post.dto.PostListDto;
+import com.lion.ebook.app.post.dto.PostModifyDto;
 import com.lion.ebook.app.post.entity.Post;
 import com.lion.ebook.app.post.mapper.PostMapper;
 import com.lion.ebook.app.post.service.PostService;
 import com.lion.ebook.app.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +38,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/post")
+@Slf4j
 public class PostController {
     private final PostService postService;
     private final HashTagService hashTagService;
@@ -65,9 +68,10 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String doWrite(@AuthenticationPrincipal MemberContext memberContext, @Valid PostForm postForm) {
-        //TODO : 마크다운 원문과 렌더링 결과(HTML)까지 같이 저장한다.
-        postService.create(memberContext.getMember(), postForm.getSubject(), postForm.getContent(), postForm.getContent(), postForm.getHashTagContents());
+        log.debug("content:"+postForm.getContent());
+        log.debug("content:"+postForm.getContentHtml()); //<h1>안녕</h1>
 
+        postService.create(memberContext.getMember(), postForm.getSubject(), postForm.getContent(), postForm.getContentHtml(), postForm.getHashTagContents());
 
         return "redirect:/post/list";
     }
@@ -97,15 +101,14 @@ public class PostController {
         if(post == null) {
             return null;
         }
-        PostDetailDto postDetailDto = PostMapper.instance.toDetailDto(post);
+        PostModifyDto postModifyDto = PostMapper.instance.toModifyDto(post);
 
         List<String> keywordList = hashTagService.findHashTagByPostId(id);
-        postDetailDto.setHashTagList(keywordList);
+        postModifyDto.setHashTagList(keywordList);
 
-        model.addAttribute("postDetail", postDetailDto);
+        model.addAttribute("postDetail", postModifyDto);
         return "post/modify";
     }
-
 
     @PostAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")

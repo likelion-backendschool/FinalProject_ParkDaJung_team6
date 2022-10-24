@@ -2,6 +2,7 @@ package com.lion.ebook.app.post.mapper;
 
 import com.lion.ebook.app.post.dto.PostDetailDto;
 import com.lion.ebook.app.post.dto.PostListDto;
+import com.lion.ebook.app.post.dto.PostModifyDto;
 import com.lion.ebook.app.post.entity.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,5 +23,9 @@ public interface PostMapper {
     @Mapping(target = "author", expression = "java(post.getAuthor().getNickname())")
     @Mapping(target = "authorId", expression = "java(post.getAuthor().getId())")
     PostDetailDto toDetailDto(Post post);
+
+    @Mapping(target = "author", expression = "java(post.getAuthor().getNickname())")
+    @Mapping(target = "authorId", expression = "java(post.getAuthor().getId())")
+    PostModifyDto toModifyDto(Post post);
 
 }

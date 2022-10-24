@@ -39,9 +39,13 @@
                 <span>제목</span>
                 <input type="text" name="subject" th:value="${postDetail.subject}">
             </div>
-            <div>
-                <span>내용</span>
-                <textarea name="content" th:text="${postDetail.content}"></textarea>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">내용</span>
+                </label>
+                <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh)">
+                    <script type="text/x-template" th:utext="${postDetail.content}"></script>
+                </div>
             </div>
             <div>
                 해시태그 :
@@ -60,6 +64,7 @@
             </div>
         </form>
     </div>
+    <th:block th:replace="common/toastEditor :: toastEditor"></th:block>
 </section>
 </body>
 </html>
