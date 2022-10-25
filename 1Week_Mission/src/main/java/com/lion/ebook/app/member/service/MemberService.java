@@ -4,6 +4,7 @@ import com.lion.ebook.app.email.service.EmailService;
 import com.lion.ebook.app.keyword.repository.KeywordRepository;
 import com.lion.ebook.app.member.entity.Member;
 import com.lion.ebook.app.member.repositoy.MemberRepository;
+import com.lion.ebook.app.member.type.MemberType;
 import com.lion.ebook.common.config.AppConfig;
 import com.lion.ebook.common.dto.ResultData;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class MemberService {
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .email(email)
-                .authLevel(3)
+                .authLevel(MemberType.GENERAL)
                 .build();
 
         if(sendEmail) {

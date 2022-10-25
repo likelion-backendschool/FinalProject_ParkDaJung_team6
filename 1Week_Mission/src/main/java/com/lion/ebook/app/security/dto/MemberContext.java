@@ -2,6 +2,7 @@ package com.lion.ebook.app.security.dto;
 
 
 import com.lion.ebook.app.member.entity.Member;
+import com.lion.ebook.app.member.type.MemberType;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +24,7 @@ public class MemberContext extends User {
 
     private String email;
 
-    private int authLevel;
+    private String authLevel;
 
     public MemberContext(Member member, List<GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), authorities);
@@ -33,7 +34,7 @@ public class MemberContext extends User {
         this.username = member.getUsername();
         this.nickname = member.getNickname();
         this.email = member.getEmail();
-        this.authLevel = member.getAuthLevel();
+        this.authLevel = member.getAuthLevel().name();
     }
 
     public Member getMember() {
@@ -45,7 +46,7 @@ public class MemberContext extends User {
                 .username(username)
                 .email(email)
                 .nickname(nickname)
-                .authLevel(authLevel)
+                .authLevel(MemberType.valueOf(authLevel))
                 .build();
     }
 
