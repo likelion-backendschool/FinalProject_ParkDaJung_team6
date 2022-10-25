@@ -7,6 +7,7 @@ import com.lion.ebook.app.member.service.MemberService;
 import com.lion.ebook.app.security.dto.MemberContext;
 import com.lion.ebook.common.dto.ResultData;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,7 @@ import java.security.Principal;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
 
@@ -40,15 +42,14 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String doJoin(@Valid JoinForm joinForm, Model model) {
+    public String doJoin(@Valid JoinForm joinForm, Model model, RedirectAttributes redirectAttributes) {
         if(memberService.existsByUsername(joinForm.getUsername())) {
             model.addAttribute("errorMsg", "아이디가 이미 존재합니다.");
             return "member/join";
         }
 
         memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname(), true);
-
-        model.addAttribute("msg", "회원가입에 성공했습니다.");
+        redirectAttributes.addFlashAttribute("successMsg", "회원가입에 성공했습니다.");
 
         return "redirect:/member/login";
     }
@@ -60,11 +61,25 @@ public class MemberController {
 
     @GetMapping("/findUsername")
     @ResponseBody
-    public ResultData<String> findId(@RequestParam() String email, Model model) {
+    public ResultData<String> findId(@RequestParam(required = true) String email, Model model) {
         Member member = memberService.findByEmail(email);
         if(email == null || member == null) {
             return new ResultData<>("400", "이메일이 존재하지 않습니다.");
         }
+
+        return new ResultData<>("200", "성공", member.getUsername());
+    }
+
+    @PostMapping("/findPassword")
+    @ResponseBody
+    public ResultData<String> findPassword(@RequestParam(required = true) String email, String username, Model model) {
+        log.debug("email:%s, username:%s\n".formatted(email, username));
+        Member member = memberService.findByEmailAndUsername(email, username);
+
+        if(member == null) {
+            return new ResultData<>("400", "해당 회원이 존재하지 않습니다.");
+        }
+        memberService.changeTmpPw(member);
 
         return new ResultData<>("200", "성공", member.getUsername());
     }

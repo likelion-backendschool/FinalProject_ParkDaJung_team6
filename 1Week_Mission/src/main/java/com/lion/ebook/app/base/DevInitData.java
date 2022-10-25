@@ -21,6 +21,7 @@ public class DevInitData {
         //회원 데이터 생성
         Member member1 = memberService.join("1", "1234", "1@1.com", "유저1", false);
         Member member2 = memberService.join("2", "1234", "2@2.com", "유저2", false);
+        Member member3 = memberService.join("dajung", "1234", "ekwjd990913@gmail.com", "다정겅듀", false);
 
         Post post1 = postService.create(member1, "안녕1", "글1", "<h1>안녕1</h1>");
         Post post2 = postService.create(member2, "안녕2", "글2", "<h1>안녕2</h1>");

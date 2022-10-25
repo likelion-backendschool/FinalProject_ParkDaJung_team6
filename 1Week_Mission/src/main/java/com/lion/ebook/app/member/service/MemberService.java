@@ -4,11 +4,14 @@ import com.lion.ebook.app.email.service.EmailService;
 import com.lion.ebook.app.keyword.repository.KeywordRepository;
 import com.lion.ebook.app.member.entity.Member;
 import com.lion.ebook.app.member.repositoy.MemberRepository;
+import com.lion.ebook.common.config.AppConfig;
 import com.lion.ebook.common.dto.ResultData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +59,24 @@ public class MemberService {
 
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
+    }
+
+    public Member findByEmailAndUsername(String email, String username) {
+        return memberRepository.findByEmailAndUsername(email, username);
+    }
+
+    @Transactional
+    public void changeTmpPw(Member member) {
+        String title = "[멋북스]임시 패스워드 발송";
+        UUID uid = UUID.randomUUID();
+        String tempPw = uid.toString().substring(0,12);
+
+        String body = "<h1>임시 패스워드 : " + tempPw + "</h1>";
+        body += "<a href=\"" + AppConfig.getBaseUrl() + "/member/login\" target=\"_blank\">로그인 하러가기</a>";
+
+        emailService.sendEmail(member.getEmail(), title, body);
+
+        member.setPassword(passwordEncoder.encode(tempPw));
+        memberRepository.save(member);
     }
 }

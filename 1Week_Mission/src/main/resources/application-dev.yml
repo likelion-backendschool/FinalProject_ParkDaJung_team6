@@ -10,3 +10,7 @@ spring:
     url: jdbc:mariadb://127.0.0.1:3306/ebook_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
     username: root
     password:
+custom:
+  site:
+    name: M-BOOKS
+    baseUrl: http://localhost:8080

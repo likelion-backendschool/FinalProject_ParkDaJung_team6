@@ -56,18 +56,22 @@
 <script th:inline="javascript">
     const msg = /*[[ ${msg} ]]*/ null;
     const errorMsg = /*[[ ${errorMsg} ]]*/ null;
-    const params = /*[[ ${param} ]]*/ null;
+    const successMsg = /*[[ ${successMsg} ]]*/ null;
+    // const params = /*[[ ${param} ]]*/ null;
 
-    if (params.msg) {
-        successModal(params.msg);
+    // if (params.successMsg) {
+    //     successModal(params.successMsg);
+    // }
+    if (successMsg) {
+        successModal(successMsg);
     }
     if (msg) {
         successModal(msg);
     }
 
-    if (params.errorMsg) {
-        errorModal(params.errorMsg);
-    }
+    // if (params.errorMsg) {
+    //     errorModal(params.errorMsg);
+    // }
     if (errorMsg) {
         errorModal(errorMsg);
     }
